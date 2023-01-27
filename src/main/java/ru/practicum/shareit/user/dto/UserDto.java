@@ -1,11 +1,9 @@
-package ru.practicum.shareit.user;
+package ru.practicum.shareit.user.dto;
 
 import lombok.Builder;
 import lombok.Data;
-import lombok.NonNull;
 
 import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
 
 /**
  * TODO Sprint add-controllers.
@@ -13,10 +11,9 @@ import javax.validation.constraints.NotBlank;
 
 @Data
 @Builder
-public class User {
+public class UserDto {
     private Long id;
-    @NonNull
     private String name;
-    @NotBlank   @Email
+    @Email
     private String email;
 }
