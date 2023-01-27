@@ -8,7 +8,7 @@ import ru.practicum.shareit.user.User;
 @NoArgsConstructor
 public class UserMapper {
 
-    public UserDto convertToUserDto (User user) {
+    public UserDto convertToUserDto(User user) {
         return UserDto.builder()
                 .id(user.getId())
                 .name(user.getName())
@@ -16,7 +16,7 @@ public class UserMapper {
                 .build();
     }
 
-    public User convertToUser (UserDto userDto) {
+    public User convertToUser(UserDto userDto) {
         return User.builder()
                 .id(userDto.getId())
                 .name(userDto.getName())

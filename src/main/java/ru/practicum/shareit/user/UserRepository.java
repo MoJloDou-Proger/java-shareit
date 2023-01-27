@@ -7,6 +7,7 @@ import java.util.List;
 public interface UserRepository {
 
     List<UserDto> getUsers();
+
     UserDto findUserById(Long id);
 
     UserDto createUser(UserDto userDto);
