@@ -1,13 +1,12 @@
 package ru.practicum.shareit.user;
 
-import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+import ru.practicum.shareit.exception.DuplicationException;
+import ru.practicum.shareit.exception.IdNotFoundException;
+import ru.practicum.shareit.exception.ValidationException;
 import ru.practicum.shareit.user.dto.UserDto;
 import ru.practicum.shareit.user.dto.UserMapper;
-import ru.practicum.shareit.exception.ValidationException;
-import ru.practicum.shareit.exception.IdNotFoundException;
-import ru.practicum.shareit.exception.DuplicationException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,11 +14,15 @@ import java.util.Objects;
 
 @Slf4j
 @Component
-@NoArgsConstructor
-public class UserRepositoryImpl implements UserRepository{
-    Long ID = 1L;
-    List<User> userList = new ArrayList<>();
-    UserMapper userMapper = new UserMapper();
+public class UserRepositoryImpl implements UserRepository {
+    private final List<User> userList;
+    private final UserMapper userMapper;
+    private Long ID = 1L;
+
+    public UserRepositoryImpl() {
+        this.userList = new ArrayList<>();
+        this.userMapper = new UserMapper();
+    }
 
     @Override
     public List<UserDto> getUsers() {
