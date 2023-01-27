@@ -20,7 +20,7 @@ public class ItemRepositoryImpl implements ItemRepository {
     private final UserRepository userRepository;
     private final List<Item> itemList;
     private final ItemMapper itemMapper;
-    private Long ID = 1L;
+    private Long id = 1L;
 
     @Autowired
     public ItemRepositoryImpl(UserRepository userRepository) {
@@ -37,12 +37,12 @@ public class ItemRepositoryImpl implements ItemRepository {
             throw new ValidationException("Название, описание и статус вещи должны быть заполнены.");
         }
 
-        item.setId(ID);
+        item.setId(id);
         itemList.add(itemMapper.convertToItem(userId, item));
 
         log.info("Вещь добавлена: " + item);
 
-        ID++;
+        id++;
         return item;
     }
 

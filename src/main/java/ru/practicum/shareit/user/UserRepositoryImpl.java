@@ -17,7 +17,7 @@ import java.util.Objects;
 public class UserRepositoryImpl implements UserRepository {
     private final List<User> userList;
     private final UserMapper userMapper;
-    private Long ID = 1L;
+    private Long id = 1L;
 
     public UserRepositoryImpl() {
         this.userList = new ArrayList<>();
@@ -55,10 +55,10 @@ public class UserRepositoryImpl implements UserRepository {
             }
         }
 
-        userDto.setId(ID);
+        userDto.setId(id);
         userList.add(userMapper.convertToUser(userDto));
         log.info("Пользователь добавлен: " + userDto);
-        ID++;
+        id++;
         return userDto;
     }
 
