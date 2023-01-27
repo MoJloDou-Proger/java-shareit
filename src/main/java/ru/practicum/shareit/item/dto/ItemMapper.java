@@ -8,12 +8,22 @@ import ru.practicum.shareit.item.model.Item;
 @NoArgsConstructor
 public class ItemMapper {
 
-    public ItemDto mapperItem(Item item) {
+    public ItemDto convertToItemDto(Item item) {
         return ItemDto.builder()
                 .id(item.getId())
                 .name(item.getName())
                 .description(item.getDescription())
                 .available(item.getAvailable())
+                .build();
+    }
+
+    public Item convertToItem(Long ownerId, ItemDto itemDto) {
+        return Item.builder()
+                .id(itemDto.getId())
+                .ownerId(ownerId)
+                .name(itemDto.getName())
+                .description(itemDto.getDescription())
+                .available(itemDto.getAvailable())
                 .build();
     }
 }

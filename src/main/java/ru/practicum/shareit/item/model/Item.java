@@ -4,6 +4,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NonNull;
 
+import javax.validation.constraints.NotNull;
+
 /**
  * TODO Sprint add-controllers.
  */
@@ -17,6 +19,6 @@ public class Item {
     private String name;
     @NonNull
     private String description;
-    @Builder.Default
-    private Boolean available = true;
+    @NotNull
+    private Boolean available;
 }
