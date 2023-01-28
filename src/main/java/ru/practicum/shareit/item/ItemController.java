@@ -12,6 +12,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/items")
 public class ItemController {
+    private static final String REQUEST_HEADER = "X-Sharer-User-Id";
     private final ItemService itemService;
 
     @Autowired
@@ -20,27 +21,27 @@ public class ItemController {
     }
 
     @PostMapping
-    public ItemDto addItem(@RequestHeader("X-Sharer-User-Id") Long userId, @RequestBody ItemDto item) {
+    public ItemDto addItem(@RequestHeader(REQUEST_HEADER) Long userId, @RequestBody ItemDto item) {
         return itemService.addItem(userId, item);
     }
 
     @PatchMapping("/{itemId}")
-    public ItemDto editItem(@RequestHeader("X-Sharer-User-Id") Long userId, @PathVariable Long itemId, @RequestBody ItemDto item) {
+    public ItemDto editItem(@RequestHeader(REQUEST_HEADER) Long userId, @PathVariable Long itemId, @RequestBody ItemDto item) {
         return itemService.editItem(userId, itemId, item);
     }
 
     @GetMapping("/{itemId}")
-    public ItemDto findItemById(@RequestHeader("X-Sharer-User-Id") Long userId, @PathVariable Long itemId) {
+    public ItemDto findItemById(@RequestHeader(REQUEST_HEADER) Long userId, @PathVariable Long itemId) {
         return itemService.findItemById(userId, itemId);
     }
 
     @GetMapping
-    public List<ItemDto> searchOwnerItems(@RequestHeader("X-Sharer-User-Id") Long userId) {
+    public List<ItemDto> searchOwnerItems(@RequestHeader(REQUEST_HEADER) Long userId) {
         return itemService.searchOwnerItems(userId);
     }
 
     @GetMapping("/search")
-    public List<ItemDto> searchItemsByText(@RequestHeader("X-Sharer-User-Id") Long userId, @RequestParam String text) {
+    public List<ItemDto> searchItemsByText(@RequestHeader(REQUEST_HEADER) Long userId, @RequestParam String text) {
         return itemService.searchItemsByText(userId, text);
     }
 }

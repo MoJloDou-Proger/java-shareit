@@ -11,6 +11,7 @@ import ru.practicum.shareit.user.dto.UserMapper;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Component
@@ -26,11 +27,9 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public List<UserDto> getUsers() {
-        List<UserDto> convertUserList = new ArrayList<>();
-        for (User u : userList) {
-            convertUserList.add(userMapper.convertToUserDto(u));
-        }
-        return convertUserList;
+        return userList.stream()
+                .map(userMapper::convertToUserDto)
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -66,20 +65,19 @@ public class UserRepositoryImpl implements UserRepository {
     public UserDto editUser(Long id, UserDto userDto) {
         for (User u : userList) {
             if (Objects.equals(u.getId(), id)) {
-                for (User d : userList) {
-                    if (!Objects.equals(d.getId(), id) && d.getEmail().equals(userDto.getEmail())) {
-                        throw new DuplicationException("Пользователь с таким email есть в памяти");
-                    }
-                }
+                checkEmailDuplication(id, userDto);
+
                 if (!checkFields(userDto.getName())) {
                     u.setName(userDto.getName());
                 }
                 if (!checkFields(userDto.getEmail())) {
                     u.setEmail(userDto.getEmail());
                 }
+
                 return userMapper.convertToUserDto(u);
             }
         }
+
         throw new IdNotFoundException("Пользователя с таким id нет");
     }
 
@@ -92,5 +90,13 @@ public class UserRepositoryImpl implements UserRepository {
 
     private boolean checkFields(String field) {
         return field == null || field.isBlank();
+    }
+
+    private void checkEmailDuplication(Long id, UserDto userDto){
+        for (User d : userList) {
+            if (!Objects.equals(d.getId(), id) && d.getEmail().equals(userDto.getEmail())) {
+                throw new DuplicationException("Пользователь с таким email есть в памяти");
+            }
+        }
     }
 }

@@ -13,6 +13,7 @@ import ru.practicum.shareit.user.UserRepository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Component
 @Slf4j
@@ -88,31 +89,23 @@ public class ItemRepositoryImpl implements ItemRepository {
     @Override
     public List<ItemDto> searchOwnerItems(Long userId) {
         userRepository.findUserById(userId);
-        List<ItemDto> ownerItemsList = new ArrayList<>();
 
-        for (Item i : itemList) {
-            if (Objects.equals(i.getOwnerId(), userId)) {
-                ownerItemsList.add(itemMapper.convertToItemDto(i));
-            }
-        }
-
-        return ownerItemsList;
+        return itemList.stream()
+                .filter(u -> Objects.equals(u.getOwnerId(), userId))
+                .map(itemMapper::convertToItemDto)
+                .collect(Collectors.toList());
     }
 
     @Override
     public List<ItemDto> searchItemsByText(Long userId, String text) {
         userRepository.findUserById(userId);
-        List<ItemDto> itemsByTextList = new ArrayList<>();
 
-        for (Item i : itemList) {
-            if ((i.getName().toLowerCase().contains(text.toLowerCase())
-                    || i.getDescription().toLowerCase().contains(text.toLowerCase()))
-                    && i.getAvailable() && !text.isEmpty()) {
-                itemsByTextList.add(itemMapper.convertToItemDto(i));
-            }
-        }
-
-        return itemsByTextList;
+        return itemList.stream()
+                .filter(i -> (i.getName().toLowerCase().contains(text.toLowerCase())
+                        || i.getDescription().toLowerCase().contains(text.toLowerCase()))
+                        && i.getAvailable() && !text.isEmpty())
+                .map(itemMapper::convertToItemDto)
+                .collect(Collectors.toList());
     }
 
     private boolean checkFields(String field) {
