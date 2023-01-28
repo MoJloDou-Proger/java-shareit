@@ -92,7 +92,7 @@ public class UserRepositoryImpl implements UserRepository {
         return field == null || field.isBlank();
     }
 
-    private void checkEmailDuplication(Long id, UserDto userDto){
+    private void checkEmailDuplication(Long id, UserDto userDto) {
         for (User d : userList) {
             if (!Objects.equals(d.getId(), id) && d.getEmail().equals(userDto.getEmail())) {
                 throw new DuplicationException("Пользователь с таким email есть в памяти");
